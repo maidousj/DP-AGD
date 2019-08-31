@@ -57,15 +57,15 @@ def main():
     X, y = load_dat("../../Dataset/dat/IPUMS-BR.dat", bias_term=False)
 
     norm = np.linalg.norm(X, axis=1)
-    print "# of examples whose norm is already < 1 : ", \
-        np.count_nonzero(norm < 1)
+    print("# of examples whose norm is already < 1 : ", \
+        np.count_nonzero(norm < 1))
 
-    print "Min values"
-    print X.min(axis=0)
+    print("Min values")
+    print(X.min(axis=0))
 
-    print "\nMax values"
-    print X.max(axis=0)
-    print "l2 norm=", np.linalg.norm(X[:5, 1:], axis=1)
+    print("\nMax values")
+    print(X.max(axis=0))
+    print("l2 norm=", np.linalg.norm(X[:5, 1:], axis=1))
 
 
 if __name__ == "__main__":

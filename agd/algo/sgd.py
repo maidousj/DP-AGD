@@ -8,7 +8,7 @@ from agd.common.gaussian_moments import get_privacy_spent
 from agd.common.param import compute_advcomp_budget
 from agd.common.param import compute_sigma
 from agd.common.dat import load_dat
-
+import ipdb
 
 def dpsgd_ma(X, y, grad, sigma, T, step_size, batch_size, clip=4, delta=1e-8,
              reg_coeff=0.0):
@@ -22,7 +22,7 @@ def dpsgd_ma(X, y, grad, sigma, T, step_size, batch_size, clip=4, delta=1e-8,
     # moments accountant
     max_lmbd = 32
     log_moments = []
-    for lmbd in xrange(1, max_lmbd+1):
+    for lmbd in range(1, max_lmbd+1):
         log_moment = compute_log_moment(q, sigma, T, lmbd)
         log_moments.append((lmbd, log_moment))
 
@@ -97,17 +97,17 @@ if __name__ == "__main__":
     learning_rate = 0.05
     reg_coeff = 0.001
 
-    print "SGD with moments accountant"
+    print("SGD with moments accountant")
     for T in [1, 100, 1000, 10000, 20000]:
         w, eps = dpsgd_ma(X, y, svm_grad, sigma, T, learning_rate,
                           batch_size, reg_coeff=reg_coeff)
         loss = svm_loss(w, X, y) / N
         acc = svm_test(w, X, y)
 
-        print "[T={:5d}] eps: {:.5f}\tloss: {:.5f}\tacc: {:5.2f}".format(
-            T, eps, loss, acc*100)
+        print("[T={:5d}] eps: {:.5f}\tloss: {:.5f}\tacc: {:5.2f}".format(
+            T, eps, loss, acc*100))
 
-    print "\nSGD with advanced composition"
+    print("\nSGD with advanced composition")
     for eps in [0.05, 0.1, 0.2, 0.4, 0.8, 1.6]:
         # used the same heuristic as in PrivGene
         T = max(int(round((N * eps) / 500.0)), 1)
@@ -115,5 +115,5 @@ if __name__ == "__main__":
         loss = svm_loss(w, X, y) / N
         acc = svm_test(w, X, y)
 
-        print "eps: {:4.2f}\tloss: {:.5f}\tacc: {:5.2f}".format(
-            eps, loss, acc*100)
+        print("eps: {:4.2f}\tloss: {:.5f}\tacc: {:5.2f}".format(
+            eps, loss, acc*100))

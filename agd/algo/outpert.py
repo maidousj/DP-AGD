@@ -23,7 +23,7 @@ def outpert_gd(X, y, grad, eps, T, L, step_size, delta=1e-8,
     sens = (3.0 * L * T * step_size) / n
 
     if verbose:
-        print "sensitivity={:.5f}".format(sens)
+        print("sensitivity={:.5f}".format(sens))
 
     # initialization
     w = np.zeros(dim)
@@ -46,7 +46,7 @@ def main(args):
     fpath = "../../../Experiment/Dataset/dat/{0}.dat".format(args.dname)
     X, y = load_dat(fpath, minmax=(0, 1), normalize=False, bias_term=True)
     N, dim = X.shape
-    print "({}, {})".format(N, dim)
+    print("({}, {})".format(N, dim))
 
     delta = args.delta
     Ts = [20, 30, 40, 50, 60, 70]
@@ -89,12 +89,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print "Running the program ... [{0}]".format(
-        time.strftime("%m/%d/%Y %H:%M:%S"))
-    print "Parameters"
-    print "----------"
+    print("Running the program ... [{0}]".format(
+        time.strftime("%m/%d/%Y %H:%M:%S")))
+    print("Parameters")
+    print("----------")
 
     for arg in vars(args):
-        print " - {0:22s}: {1}".format(arg, getattr(args, arg))
+        print(" - {0:22s}: {1}".format(arg, getattr(args, arg)))
 
     main(args)

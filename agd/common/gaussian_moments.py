@@ -12,7 +12,7 @@ Suppose that we have run an algorithm with parameters, an array of
 delta. The example code would be:
 
   max_lmbd = 32
-  lmbds = xrange(1, max_lmbd + 1)
+  lmbds = range(1, max_lmbd + 1)
   log_moments = []
   for lmbd in lmbds:
     log_moment = 0
@@ -81,10 +81,10 @@ def compute_a(sigma, q, lmbd, verbose=False):
 
     a_lambda_first_term_exact = 0
     a_lambda_second_term_exact = 0
-    for i in xrange(lmbd_int + 1):
+    for i in range(lmbd_int + 1):
         coef_i = scipy.special.binom(lmbd_int, i) * (q ** i)
         s1, s2 = 0, 0
-        for j in xrange(i + 1):
+        for j in range(i + 1):
             coef_j = scipy.special.binom(i, j) * (-1) ** (i - j)
             s1 += coef_j * np.exp((j * j - j) / (2.0 * (sigma ** 2)))
             s2 += coef_j * np.exp((j * j + j) / (2.0 * (sigma ** 2)))
@@ -94,10 +94,10 @@ def compute_a(sigma, q, lmbd, verbose=False):
     a_lambda_exact = ((1.0 - q) * a_lambda_first_term_exact +
                       q * a_lambda_second_term_exact)
     if verbose:
-        print "A: by binomial expansion    {} = {} + {}".format(
+        print("A: by binomial expansion    {} = {} + {}".format(
             a_lambda_exact,
             (1.0 - q) * a_lambda_first_term_exact,
-            q * a_lambda_second_term_exact)
+            q * a_lambda_second_term_exact))
 
     return _to_np_float64(a_lambda_exact)
 
@@ -112,8 +112,8 @@ def compute_b(sigma, q, lmbd, verbose=False):
     b_fn = lambda z: (np.power(mu0(z) / mu(z), lmbd) -
                       np.power(mu(-z) / mu0(z), lmbd))
     if verbose:
-        print "M =", m
-        print "f(-M) = {} f(M) = {}".format(b_fn(-m), b_fn(m))
+        print("M =", m)
+        print("f(-M) = {} f(M) = {}".format(b_fn(-m), b_fn(m)))
         assert b_fn(-m) < 0 and b_fn(m) < 0
 
     b_lambda_int1_fn = lambda z: (mu0(z) *
@@ -127,9 +127,9 @@ def compute_b(sigma, q, lmbd, verbose=False):
     b_bound = a_lambda_m1 + b_int1 - b_int2
 
     if verbose:
-        print "B: by numerical integration", b_lambda
-        print "B must be no more than     ", b_bound
-        print b_lambda, b_bound
+        print("B: by numerical integration", b_lambda)
+        print("B must be no more than     ", b_bound)
+        print(b_lambda, b_bound)
     return _to_np_float64(b_lambda)
 
 
@@ -175,10 +175,10 @@ def compute_a_mp(sigma, q, lmbd, verbose=False):
     a_lambda_second_term = integral_inf_mp(a_lambda_second_term_fn)
 
     if verbose:
-        print "A: by numerical integration {} = {} + {}".format(
+        print("A: by numerical integration {} = {} + {}".format(
             a_lambda,
             (1 - q) * a_lambda_first_term,
-            q * a_lambda_second_term)
+            q * a_lambda_second_term))
 
     return _to_np_float64(a_lambda)
 
@@ -197,8 +197,8 @@ def compute_b_mp(sigma, q, lmbd, verbose=False):
     b_fn = lambda z: ((mu0(z) / mu(z)) ** lmbd_int -
                       (mu(-z) / mu0(z)) ** lmbd_int)
     if verbose:
-        print "M =", m
-        print "f(-M) = {} f(M) = {}".format(b_fn(-m), b_fn(m))
+        print("M =", m)
+        print("f(-M) = {} f(M) = {}".format(b_fn(-m), b_fn(m)))
         assert b_fn(-m) < 0 and b_fn(m) < 0
 
         b_lambda_int1_fn = lambda z: mu0(z) * (mu0(z) / mu(z)) ** lmbd_int
@@ -210,8 +210,8 @@ def compute_b_mp(sigma, q, lmbd, verbose=False):
         b_bound = a_lambda_m1 + b_int1 - b_int2
 
     if verbose:
-        print "B by numerical integration", b_lambda
-        print "B must be no more than    ", b_bound
+        print("B by numerical integration", b_lambda)
+        print("B must be no more than    ", b_bound)
     assert b_lambda < b_bound + 1e-5
     return _to_np_float64(b_lambda)
 
@@ -256,7 +256,7 @@ def _compute_eps(log_moments, delta):
         if math.isinf(log_moment) or math.isnan(log_moment):
             sys.stderr.write("The %d-th order is inf or Nan\n" % moment_order)
             continue
-    min_eps = min(min_eps, (log_moment - math.log(delta)) / moment_order)
+        min_eps = min(min_eps, (log_moment - math.log(delta)) / moment_order)
     return min_eps
 
 
@@ -324,7 +324,7 @@ def get_privacy_spent(log_moments, target_eps=None, target_delta=None):
 if __name__ == "__main__":
     max_lmbd = 32
     parameters = [(1, 0.00001, 1)]
-    lmbds = xrange(1, max_lmbd + 1)
+    lmbds = range(1, max_lmbd + 1)
     log_moments = []
 
     for lmbd in lmbds:
@@ -333,7 +333,7 @@ if __name__ == "__main__":
             # log_moment += compute_log_moment(q, sigma, T, lmbd)
             log_moment += compute_lap_moment(sigma, lmbd)
         log_moments.append((lmbd, log_moment))
-    print log_moments
+    print(log_moments)
 
     eps, delta = get_privacy_spent(log_moments, target_delta=1e-5)
     print("epsilon: {}, delta: {}".format(eps, delta))

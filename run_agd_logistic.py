@@ -8,7 +8,7 @@ from agd.common.logistic import logistic_test
 from agd.common.param import dp_to_zcdp
 from agd.algo.agd_rho import agd_rho as agd
 from sklearn.model_selection import RepeatedKFold
-
+import ipdb
 
 def main(args):
     fpath = "./dataset/{0}.dat".format(args.dname)
@@ -38,6 +38,7 @@ def main(args):
         n_train = train_X.shape[0]
 
         for i, eps in enumerate(epsilon):
+            ipdb.set_trace()
             rho = dp_to_zcdp(eps, delta)
 
             for j in range(nrep):
@@ -78,13 +79,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print "Running the program ... [{0}]".format(
-        time.strftime("%m/%d/%Y %H:%M:%S"))
-    print "Parameters"
-    print "----------"
+    print("Running the program ... [{0}]".format(
+        time.strftime("%m/%d/%Y %H:%M:%S")))
+    print("Parameters")
+    print("----------")
 
     for arg in vars(args):
-        print " - {0:22s}: {1}".format(arg, getattr(args, arg))
+        print(" - {0:22s}: {1}".format(arg, getattr(args, arg)))
 
     start_time = time.clock()
 
@@ -94,6 +95,6 @@ if __name__ == "__main__":
     mins, sec = divmod(elapsed, 60)
     hrs, mins = divmod(mins, 60)
 
-    print "The program finished. [{0}]".format(
-        time.strftime("%m/%d/%Y %H:%M:%S"))
-    print "Elasepd time: %d:%02d:%02d" % (hrs, mins, sec)
+    print("The program finished. [{0}]".format(
+        time.strftime("%m/%d/%Y %H:%M:%S")))
+    print("Elasepd time: %d:%02d:%02d" % (hrs, mins, sec))

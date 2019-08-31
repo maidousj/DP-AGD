@@ -48,7 +48,7 @@ def main(args):
                                 reg_coeff=args.reg_coeff)
                 obj[i, j, k] = logistic_loss(sol, train_X, train_y) / n_train
                 acc[i, j, k] = logistic_test(sol, test_X, test_y) * 100.0
-                # print "acc[{},{},{}]={}".format(i, j, k, acc[i, j, k])
+                print("acc[{},{},{}]={}".format(i, j, k, acc[i, j, k]))
 
         k += 1
 
@@ -72,13 +72,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print "Running the program ... [{0}]".format(
-        time.strftime("%m/%d/%Y %H:%M:%S"))
-    print "Parameters"
-    print "----------"
+    print("Running the program ... [{0}]".format(
+        time.strftime("%m/%d/%Y %H:%M:%S")))
+    print("Parameters")
+    print("----------")
 
     for arg in vars(args):
-        print " - {0:22s}: {1}".format(arg, getattr(args, arg))
+        print(" - {0:22s}: {1}".format(arg, getattr(args, arg)))
 
     start_time = time.clock()
 
@@ -88,6 +88,6 @@ if __name__ == "__main__":
     mins, sec = divmod(elapsed, 60)
     hrs, mins = divmod(mins, 60)
 
-    print "The program finished. [{0}]".format(
-        time.strftime("%m/%d/%Y %H:%M:%S"))
-    print "Elasepd time: %d:%02d:%02d" % (hrs, mins, sec)
+    print("The program finished. [{0}]".format(
+        time.strftime("%m/%d/%Y %H:%M:%S")))
+    print("Elasepd time: %d:%02d:%02d" % (hrs, mins, sec))

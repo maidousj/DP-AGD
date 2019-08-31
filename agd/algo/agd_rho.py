@@ -53,7 +53,7 @@ def agd_rho(X, y, rho, eps_total, delta, grad_func, loss_func, test_func,
         if verbose:
             loss = loss_func(w, X, y) / N
             acc = test_func(w, X, y)
-            print "[{}] loss: {:.5f}  acc: {:5.2f}".format(t, loss, acc*100)
+            print("[{}] loss: {:.5f}  acc: {:5.2f}".format(t, loss, acc*100))
 
         if batch_size > 0:
             # build a mini-batch
@@ -67,7 +67,7 @@ def agd_rho(X, y, rho, eps_total, delta, grad_func, loss_func, test_func,
         # non-private (clipped) gradient
         grad = grad_func(w, mini_X, mini_y, grad_clip)
 
-        sigma = grad_clip / math.sqrt(2.0 * rho_ng)
+        sigma = grad_clip / math.sqrt(2.0 * rho_ng) # same as sigma before??
         noisy_grad = grad + sigma * np.random.randn(dim)
         noisy_unnorm = np.copy(noisy_grad)
         noisy_grad /= np.linalg.norm(noisy_grad)
@@ -107,7 +107,7 @@ def agd_rho(X, y, rho, eps_total, delta, grad_func, loss_func, test_func,
                 rho_ng *= (1.0 + gamma)
                 # max_step_size *= 0.9
                 if verbose:
-                    print "\tbad gradient: resample (rho_ng={})".format(rho_ng)
+                    print("\tbad gradient: resample (rho_ng={})".format(rho_ng))
 
                 noisy_grad = grad_avg(rho_old, rho_ng, grad, noisy_unnorm,
                                       grad_clip)
@@ -141,17 +141,17 @@ def main(args):
     y[y < 1] = -1
 
     rho = dp_to_zcdp(eps_total, delta)
-    print "rho = {:.5f}".format(rho)
+    print("rho = {:.5f}".format(rho))
 
     start_time = time.clock()
     w = agd_rho(X, y, rho, eps_total, delta, svm_grad, svm_loss,
                 svm_test, obj_clip, grad_clip, reg_coeff=0.01,
                 exp_dec=args.exp_dec,
                 verbose=True)
-    print "time = ", time.clock() - start_time
+    print("time = ", time.clock() - start_time)
     loss = svm_loss(w, X, y) / N
     acc = svm_test(w, X, y)
-    print "loss: {:.5f}\t  acc: {:5.2f}".format(loss, acc*100)
+    print("loss: {:.5f}\t  acc: {:5.2f}".format(loss, acc*100))
 
 
 if __name__ == "__main__":
@@ -164,10 +164,10 @@ if __name__ == "__main__":
     parser.add_argument('--exp_dec', type=float, default=1.0)
 
     args = parser.parse_args()
-    print "Parameters"
-    print "----------"
+    print("Parameters")
+    print("----------")
 
     for arg in vars(args):
-        print " - {0:22s}: {1}".format(arg, getattr(args, arg))
+        print(" - {0:22s}: {1}".format(arg, getattr(args, arg)))
 
     main(args)
